@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Barcode input test</title>
+</head>
+
+<body>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+  <div id="bcinput"></div>
+  
+  <input id='bCode'type='text' value='barcode appears here'/>
+  
+  
+  <script type="text/javascript">
+
+
+// Prefer camera resolution nearest to 1280x720.
+var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+
+navigator.mediaDevices.getUserMedia(constraints)
+.then(function(mediaStream) {
+  var video = document.querySelector('video');
+  video.srcObject = mediaStream;
+  video.onloadedmetadata = function(e) {
+    video.play();
+  };
+})
+.catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  $(window).ready(function(){
+
+
+console.log('all is well');
+
+$(window).scannerDetection();
+$(window).bind('scannerDetectionComplete',function(e,data){
+          console.log('complete '+data.string);
+          $("#bCode").val(data.string);
+      })
+      .bind('scannerDetectionError',function(e,data){
+          console.log('detection error '+data.string);
+      })
+      .bind('scannerDetectionReceive',function(e,data){
+          console.log('Recieve');
+          console.log(data.evt.which);
+          $("bcinput").html(data.evt.which);
+      })
+
+  
+  </script>
+</body>
+
+</html>
